@@ -24,6 +24,7 @@ class Snake():
         newPos = (((curPos[0] + (x*gridSize)) % screenWidth), (curPos[1] + (y*gridSize)) % screenHeight)
         if len(self.positions) > 2 and newPos in self.positions[2:]:
             self.reset()
+            food.reset()
         else:
             self.positions.insert(0, newPos)
             if len(self.positions) > self.length:
@@ -59,18 +60,24 @@ class Snake():
 
 class Food():
     def __init__(self):
-        self.position = (0, 0)
-        self.foods = [0]
+        self.foods = []
         self.color = (255, 100, 0)
         self.randomizePosicion()
 
     def randomizePosicion(self):
-        self.position = (randint(0, gridWidth - 1) * gridSize, randint(0, gridHeight - 1) * gridSize)
+        for fruit in range(1, 6):
+            self.position = (randint(0, gridWidth - 1) * gridSize, randint(0, gridHeight - 1) * gridSize)
+            self.foods.insert(0, self.position)
+
+    def reset(self):
+        self.foods.clear()
+        self.randomizePosicion()
 
     def draw(self, surface):
-        rect = pygame.Rect((self.position[0], self.position[1]), (gridSize, gridSize))
-        pygame.draw.rect(surface, self.color, rect)
-        pygame.draw.rect(surface, (0, 100, 0), rect, 1)
+        for pos in self.foods:
+            rect = pygame.Rect((pos[0], pos[1]), (gridSize, gridSize))
+            pygame.draw.rect(surface, self.color, rect)
+            pygame.draw.rect(surface, (0, 100, 0), rect, 1)
 
 
 def drawGrid(surface):
@@ -97,6 +104,9 @@ down = (0, 1)
 left = (-1, 0)
 right = (1, 0)
 
+snake = Snake()
+food = Food()
+
 def main():
     pygame.init()
 
@@ -105,10 +115,7 @@ def main():
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
-
-    snake = Snake()
-    food = Food()
-
+    
     myFont = pygame.font.Font("..\Snake\Aldrich-Regular.ttf", 25)
     eatSound = pygame.mixer.Sound("..\Snake\sine_click.wav")
     eatSound.set_volume(9.2)
@@ -118,11 +125,14 @@ def main():
         snake.imputKeys()
         drawGrid(surface)
         snake.move()
-        if snake.getHeadPosicion() == food.position:
-            snake.length += 1
-            snake.score += 1
-            food.randomizePosicion()
-            eatSound.play()
+        for pos in food.foods:
+            if snake.getHeadPosicion() == pos:
+                snake.length += 1
+                snake.score += 1
+                food.foods.pop(food.foods.index(pos))
+                eatSound.play()
+            if snake.getHeadPosicion() == pos and len(food.foods) == 0:
+                food.randomizePosicion()
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0,0))
