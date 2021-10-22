@@ -115,10 +115,14 @@ def main():
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
+
+    music = pygame.mixer.Sound("../Snake/8_bit_nice_music_loop.wav")
+    music.set_volume(0.1)
+    music.play(loops=-1)
     
     myFont = pygame.font.Font("..\Snake\Aldrich-Regular.ttf", 25)
     eatSound = pygame.mixer.Sound("..\Snake\sine_click.wav")
-    eatSound.set_volume(9.2)
+    eatSound.set_volume(0.8)
 
     while True:
         clock.tick(10)
