@@ -29,7 +29,7 @@ class Snake():
         newPos = (((curPos[0] + (x*gridSize)) % screenWidth), (curPos[1] + (y*gridSize)) % screenHeight)
         if len(self.positions) > 2 and newPos in self.positions[2:]:
             self.reset()
-            Food.reset()
+            food.reset()
         else:
             self.positions.insert(0, newPos)
             if len(self.positions) > self.length:
@@ -118,6 +118,8 @@ down = (0, 1)
 left = (-1, 0)
 right = (1, 0)
 
+food = Food()
+
 
 def main():
     pygame.init()
@@ -129,7 +131,6 @@ def main():
     surface = surface.convert()
 
     snake = Snake()
-    food = Food()
     
     myFont = pygame.font.Font("..\Snake\Aldrich-Regular.ttf", 25)
     eatSound = pygame.mixer.Sound("..\Snake\sine_click.wav")
