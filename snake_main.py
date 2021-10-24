@@ -10,9 +10,12 @@ class Snake():
         self.score = 0
 
         self.musicToggle = True
-        self.music = pygame.mixer.Sound("../Snake/8_bit_nice_music_loop.wav")
+        self.music = pygame.mixer.Sound("../Snake/Audio/8_bit_nice_music_loop.wav")
         self.music.set_volume(0.1)
         self.music.play(loops=-1)
+
+        self.gameOverSound = pygame.mixer.Sound("../Snake/Audio/8_bit_error_sound.wav")
+        self.gameOverSound.set_volume(0.4)
 
     def getHeadPosicion(self):
         return self.positions[0]
@@ -30,6 +33,7 @@ class Snake():
         if len(self.positions) > 2 and newPos in self.positions[2:]:
             self.reset()
             food.reset()
+            self.gameOverSound.play()
         else:
             self.positions.insert(0, newPos)
             if len(self.positions) > self.length:
@@ -132,8 +136,8 @@ def main():
 
     snake = Snake()
     
-    myFont = pygame.font.Font("..\Snake\Aldrich-Regular.ttf", 25)
-    eatSound = pygame.mixer.Sound("..\Snake\sine_click.wav")
+    myFont = pygame.font.Font("..\Snake\Font\Aldrich-Regular.ttf", 25)
+    eatSound = pygame.mixer.Sound("..\Snake\Audio\sine_click.wav")
     eatSound.set_volume(0.8)
 
     while True:
