@@ -136,7 +136,7 @@ def main():
 
     snake = Snake()
     
-    myFont = pygame.font.Font("..\Snake\Font\Aldrich-Regular.ttf", 25)
+    myFont = pygame.font.Font("..\Snake\Font\Qahiri-Regular.ttf", 25)
     eatSound = pygame.mixer.Sound("..\Snake\Audio\sine_click.wav")
     eatSound.set_volume(0.85)
 
