@@ -9,6 +9,11 @@ class Snake():
         self.color = (245, 245, 0)
         self.score = 0
 
+        self.musicToggle = True
+        self.music = pygame.mixer.Sound("../Snake/8_bit_nice_music_loop.wav")
+        self.music.set_volume(0.1)
+        self.music.play(loops=-1)
+
     def getHeadPosicion(self):
         return self.positions[0]
 
@@ -24,7 +29,7 @@ class Snake():
         newPos = (((curPos[0] + (x*gridSize)) % screenWidth), (curPos[1] + (y*gridSize)) % screenHeight)
         if len(self.positions) > 2 and newPos in self.positions[2:]:
             self.reset()
-            food.reset()
+            Food.reset()
         else:
             self.positions.insert(0, newPos)
             if len(self.positions) > self.length:
@@ -57,6 +62,15 @@ class Snake():
                     self.turn(left)
                 if event.key == pygame.K_RIGHT:
                     self.turn(right)
+
+                if self.musicToggle == True:
+                    if event.key == pygame.K_LCTRL:
+                        self.music.stop()
+                        self.musicToggle = False
+                elif self.musicToggle == False:
+                    if event.key == pygame.K_LCTRL:
+                        self.music.play(loops = -1)
+                        self.musicToggle = True
 
 class Food():
     def __init__(self):
@@ -104,8 +118,6 @@ down = (0, 1)
 left = (-1, 0)
 right = (1, 0)
 
-snake = Snake()
-food = Food()
 
 def main():
     pygame.init()
@@ -116,9 +128,8 @@ def main():
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
 
-    music = pygame.mixer.Sound("../Snake/8_bit_nice_music_loop.wav")
-    music.set_volume(0.1)
-    music.play(loops=-1)
+    snake = Snake()
+    food = Food()
     
     myFont = pygame.font.Font("..\Snake\Aldrich-Regular.ttf", 25)
     eatSound = pygame.mixer.Sound("..\Snake\sine_click.wav")
