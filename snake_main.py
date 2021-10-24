@@ -130,6 +130,7 @@ def main():
 
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((screenWidth, screenHeight), 0, 32)
+    pygame.display.set_caption("Snake Game by Eclizanto")
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
