@@ -83,7 +83,7 @@ class Food():
         self.randomizePosicion()
 
     def randomizePosicion(self):
-        for fruit in range(1, 6):
+        for fruit in range(1, 21):
             self.position = (randint(0, gridWidth - 1) * gridSize, randint(0, gridHeight - 1) * gridSize)
             self.foods.insert(0, self.position)
 
@@ -138,7 +138,7 @@ def main():
     
     myFont = pygame.font.Font("..\Snake\Font\Aldrich-Regular.ttf", 25)
     eatSound = pygame.mixer.Sound("..\Snake\Audio\sine_click.wav")
-    eatSound.set_volume(0.8)
+    eatSound.set_volume(0.85)
 
     while True:
         clock.tick(10)
@@ -156,8 +156,9 @@ def main():
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0,0))
-        scoreSurf = myFont.render("Score {0}".format(snake.score), 1, "white")
-        screen.blit(scoreSurf, (10, 10))
+        scoreSurf = myFont.render("{0}".format(snake.score), False, "white")
+        scoreRect = scoreSurf.get_rect(center = (20, 19))
+        screen.blit(scoreSurf, scoreRect)
         pygame.display.update()
 
 main()
